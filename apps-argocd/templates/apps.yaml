@@ -1,0 +1,34 @@
+{{ range $app := .Values.apps }}
+{{ if $app.enabled }}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ $app.name }}
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io/foreground
+spec:
+  project: {{ $app.project}}
+  source:
+    repoURL: {{ $app.repo }}
+    targetRevision: '{{ $app.version }}'
+    chart: {{ $app.name }}
+    helm:
+      values: | 
+        {{- $.Files.Get (printf "values/%s.yaml" $app.name) | nindent 8 }}
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: {{ $app.name }}
+  syncPolicy:
+    automated:
+      prune: false
+      selfHeal: false
+    syncOptions:
+      - PrunePropagationPolicy=foreground
+      - Replace=false
+      - PruneLast=false
+      - Validate=true
+      - CreateNamespace=true
+      - ApplyOutOfSyncOnly=false
+{{ end }}
+{{ end }}

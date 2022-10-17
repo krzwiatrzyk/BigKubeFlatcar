@@ -1,0 +1,9 @@
+version: 3
+
+tasks:
+  vendir: vendir sync
+
+  commit:
+  - git add .
+  - git commit -m "fast"
+  - git push origin main

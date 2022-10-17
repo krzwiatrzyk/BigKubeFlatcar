@@ -1,0 +1,22 @@
+version: 3
+
+tasks:
+  # Helm add repo
+  helm:add-repo:
+    cmds:
+    - helm repo add argo https://argoproj.github.io/argo-helm
+    status:
+    - helm rerpo list | grep argo
+
+  install:
+    cmds:
+    - > 
+      helm upgrade --install argo-cd argo/argo-cd
+      -f values/custom.yaml
+      -n argo-cd
+      --create-namespace
+      # -f https://raw.githubusercontent.com/krzwiatrzyk/lib-cluster-manager/main/k8s-gitops/argocd/values/minimal.yaml
+    
+  app-of-apps:
+    cmds:
+    - kubectl apply -f manifests/app-of-apps.yaml

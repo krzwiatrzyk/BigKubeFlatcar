@@ -1,0 +1,15 @@
+app-of-apps:
+  repo: 
+
+apps:
+- name: echo-server
+  enabled: true
+  repo: "https://ealenn.github.io/charts"
+  version: "0.6.0"
+  # From values directory within chart
+  valuesFiles:
+  - echo-server.yaml
+  # Overlay values 
+  valuesURL: []
+  autoSync: true
+  project: default
