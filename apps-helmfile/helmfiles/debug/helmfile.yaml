@@ -1,0 +1,14 @@
+repositories:
+ - name: ealenn
+   url: https://ealenn.github.io/charts
+
+releases:
+- name: echo-server
+  namespace: prometheus
+  chart: ealenn/echo-server
+  version: 0.5.0
+  values:
+    - values.yaml.gotmpl
+    
+environments: 
+  local:

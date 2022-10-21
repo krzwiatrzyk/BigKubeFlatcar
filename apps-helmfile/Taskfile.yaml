@@ -1,0 +1,8 @@
+version: 3
+
+tasks:
+  template:
+  - helmfile template
+
+  template:local:
+  - helmfile -e local template

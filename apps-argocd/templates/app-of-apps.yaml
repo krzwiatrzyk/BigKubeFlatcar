@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: {{ index .Values "app-of-apps" "repo" }}
+    repoURL: https://github.com/krzwiatrzyk/BigKubeFlatcar.git
     targetRevision: HEAD
     path: apps-argocd
   destination:

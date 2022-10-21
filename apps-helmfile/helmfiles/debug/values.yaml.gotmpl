@@ -5,7 +5,7 @@ ingress:
   # ingress.annotations -- Example `kubernetes.io/ingress.class: nginx` for Nginx Ingress
   annotations: {}
   hosts:
-    - host: echo-server.cluster
+    - host: echo-server.{{ .Values | get "ingressSuffix" "lol" }}
       paths:
         - /
   tls: []

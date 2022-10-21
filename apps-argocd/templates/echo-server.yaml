@@ -1,24 +1,21 @@
-{{ range $app := .Values.apps }}
-{{ if $app.enabled }}
----
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: {{ $app.name }}
+  name: &name echo-server
   finalizers:
     - resources-finalizer.argocd.argoproj.io/foreground
 spec:
-  project: {{ $app.project}}
+  project: debug
   source:
-    repoURL: {{ $app.repo }}
-    targetRevision: '{{ $app.version }}'
-    chart: {{ $app.name }}
+    repoURL: https://ealenn.github.io/charts
+    targetRevision: '0.5.0'
+    chart: *name
     helm:
       values: | 
-        {{- $.Files.Get (printf "values/%s.yaml" $app.name) | nindent 8 }}
+        {{- $.Files.Get "values/echo-server.yaml" | nindent 8 }}
   destination:
     server: https://kubernetes.default.svc
-    namespace: {{ $app.name }}
+    namespace: *name
   syncPolicy:
     automated:
       prune: false
@@ -30,5 +27,3 @@ spec:
       - Validate=true
       - CreateNamespace=true
       - ApplyOutOfSyncOnly=false
-{{ end }}
-{{ end }}
